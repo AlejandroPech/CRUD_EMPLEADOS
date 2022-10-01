@@ -1,6 +1,9 @@
-﻿using CrudEmpleados.Models;
+﻿using CrudEmpleados.Infraestructure;
+using CrudEmpleados.Infraestructure.Repositories;
+using CrudEmpleados.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,9 +15,12 @@ namespace CrudEmpleados.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        //private readonly AppDbContext _context;
+        private readonly EmpleadoRepository repository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
+            repository = new EmpleadoRepository(context);
             _logger = logger;
         }
 
@@ -23,15 +29,30 @@ namespace CrudEmpleados.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult ObtenerRegistros()
         {
-            return View();
+            var empleados = repository.GetEmpleados();
+            return Ok(empleados);
+        }
+        public async Task<IActionResult> AgregarEmpleado([FromBody]Empleado empleado)
+        {
+            JObject oRespuesta = new JObject();
+            oRespuesta["lSuccess"] = await repository.CreateEmpleado(empleado);
+            return Ok(oRespuesta);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> ModificarEmpleado(Empleado empleado)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            JObject oRespuesta = new JObject();
+            oRespuesta["lSuccess"] = await repository.UpdateEmpleado(empleado);
+            return Ok(oRespuesta);
+        }
+
+        public async Task<IActionResult> EliminarEmpleado(int id)
+        {
+            JObject oRespuesta = new JObject();
+            oRespuesta["lSuccess"] = await repository.DeleteEmpleado(id);
+            return Ok(oRespuesta);
         }
     }
 }
