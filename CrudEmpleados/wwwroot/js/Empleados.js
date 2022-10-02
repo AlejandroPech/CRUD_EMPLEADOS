@@ -1,6 +1,5 @@
 ﻿var DTEmpleado = null;
 const confDTEmpleado = {
-    "language": { "sUrl": "./assets/js/dataTables_Espanol.json" },
     "pageLength": 10,
     "paging": true,
     "lengthChange": false,
@@ -26,18 +25,32 @@ const confDTEmpleado = {
     , "columnDefs": [
         { "name": "sNombre", "data": "sNombre", "className": "text-center", "targets": 0 }
         , { "name": "sCorreo", "data": "sCorreo", "className": "text-center", "targets": 1 }
-        , { "name": "dtFechaIngreso", "data": "dtFechaIngreso", "className": "text-center", "targets": 2 }
+        , {
+            "name": "dtFechaIngreso", "data": "dtFechaIngreso", "className": "text-center", "targets": 2, render: function (data, type, row, meta) {
+                // return data;
+                return data.substring(0, 10);
+            }
+        }
         , {
             "name": "acciones", "data": "acciones", "className": "text-center", "targets": 3, render: function (data, type, row, meta) {
                 // return data;
                 return type === 'display' ?
-                    `<button data-id="${row.id}" id="updaterow" onclick='fnCrearEmpleadoHtml(${JSON.stringify(row)})' type="button" class="btn update btn-primary btn-sm" ><i class="fa fa-pencil" ></i></button>
-                 <button data-id="${row.id}" id="deleterow" onclick='deleteEmpleado(${JSON.stringify(row)},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>` : data;
-            } }
+                    `<button data-id="${row.id}" id="updaterow" onclick='fnModificarEmpleadoHtml(${JSON.stringify(row)})' type="button" class="btn update btn-primary btn-sm" ><i class="fa fa-pencil" ></i></button>
+                 <button data-id="${row.id}" id="deleterow" onclick='fnEliminarEmpleado(${row.Id},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>` : data;
+            }
+        }
+        , { "name": "dtFechaCreacion", "data": "dtFechaCreacion", "className": "text-center", "targets": 4, "visible": false }
+        , { "name": "lActivo", "data": "lActivo", "className": "text-center", "targets": 5, "visible": false }
+        , { "name": "Id", "data": "Id", "className": "text-center", "targets": 6, "visible": false }
     ]
 };
 
 $(document).ready(function () {
+    $("#titltCard").html("Empleados")
+    fnRealizarConsulta();
+});
+
+const fnRealizarConsulta = () => {
     fetch('/Home/ObtenerRegistros')
         .then(response => response.json())
         .then(data => {
@@ -64,7 +77,7 @@ $(document).ready(function () {
                 $.each(data, function (_index, _oData) {
                     DTEmpleado.row.add({
                         "sNombre": _oData.sNombre
-                        , "sCorreo": "'" + _oData.sCorreo
+                        , "sCorreo": _oData.sCorreo
                         , "dtFechaIngreso": _oData.dtFechaIngreso
                         , "acciones": ""
                         , "dtFechaCreacion": _oData.dtFechaCreacion
@@ -86,11 +99,11 @@ $(document).ready(function () {
                 $('#main-app').append(htmlObject);
             }
         });
-});
+}
 
 const fnCrearTabla = () => {
     sTemplate = `
-        <h4 style="margin-bottom: 0px;">Empleados &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a id="boton" onclick="fnDescargarCSV(this)" class="mb-2 text-center btn btn-primary">DESCARGAR CSV</a></h4>
+        <h4 style="margin-bottom: 0px;">Empleados &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a id="boton" onclick="fnCrearEmpleadoHtml()" class="mb-2 text-center btn btn-primary">Agregar</a></h4>
         <div id="respuestaEmpleados" class="">
             <div data-topline="1">
                 <table style="background: transparent;" width='100%' id='tbl-Empleado' class='table dt-responsive responsive hover nowrap'>
@@ -161,15 +174,87 @@ const fnAgregarEmpleado = (event) => {
 }
 
 const fnModificarEmpleadoHtml = (_this) => {
+    var sTituloModal = "Modificar Empleado";
+    $('div#divmodal div.modal-body').empty();
+    sTemplate = `
+    <form id="formulario" onsubmit="return fnModificarEmpleado(event);">
+        <input type="number" hidden name="Id" id="Id" value=${_this.Id} />
+        <input type="date" hidden name="dtFechaCreacion" id="dtFechaCreacion" value=${_this.dtFechaCreacion.substring(0, 10)} />
+        `+ fnHtmlInputs(_this) +
+        `<div class="modal-footer">
+            <button type="submit"  class="btn btn-primary">Guardar</button>
+        </div>
+    </form>`;
 
+    $('div#divmodal div.modal-body').html(sTemplate);
+    $('div#divmodal h5.modal-titulo').html(sTituloModal);
+    $('div#divmodal').modal('show');
 }
 
 const fnModificarEmpleado = () => {
+    event.preventDefault();
+    const data = new FormData(event.target);
 
+    const value = Object.fromEntries(data.entries());
+    value.lActivo = true;
+    fetch('/Home/ModificarEmpleado', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.lSuccess) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Felicidades',
+                    text: 'Se modificó el registro exitosamente'
+                })
+                fnRealizarConsulta();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '"Error al modificar el registro"'
+                })
+            }
+        });
 }
 
-const fnEliminarEmpleado = () => {
-
+const fnEliminarEmpleado = (Id) => {
+    Swal.fire({
+        title: '¿Eliminar?',
+        text: "Esta accion no se podra revertir",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/Home/EliminarEmpleado?Id=' + Id)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.lSuccess) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Felicidades',
+                            text: 'Se eliminó el registro exitosamente'
+                        })
+                        fnRealizarConsulta();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '"Error al eliminar el registro"'
+                        })
+                    }
+                });
+        }
+    });
 }
 
 const fnHtmlInputs = (_this) => {
