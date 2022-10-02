@@ -262,19 +262,19 @@ const fnHtmlInputs = (_this) => {
             <div class="col-12">
                 <div class="form-group">
                     <label>Nombre</label>
-                    <input type="text" name="sNombre" id="sNombre" value="${(_this == null) ? "" : _this.sNombre}" class="form-control"></input>
+                    <input type="text" name="sNombre" id="sNombre" value="${(_this == null) ? "" : _this.sNombre}" class="form-control" required></input>
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
                     <label>Correo</label>
-                    <input type="text" name="sCorreo" id="sCorreo" value="${(_this == null) ? "" : _this.sCorreo}" class="form-control"></input>
+                    <input type="email" name="sCorreo" id="sCorreo" value="${(_this == null) ? "" : _this.sCorreo}" class="form-control" required></input>
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
                     <label>Fecha de Ingreso</label>
-                    <input type="date" name="dtFechaIngreso" id="dtFechaIngreso" value="${(_this == null) ? "" : _this.dtFechaIngreso.substring(0, 10)}" class="form-control" ></input>
+                    <input type="date" name="dtFechaIngreso" id="dtFechaIngreso" value="${(_this == null) ? "" : _this.dtFechaIngreso.substring(0, 10)}" class="form-control" required></input>
                 </div>
             </div>
         </div>`;
