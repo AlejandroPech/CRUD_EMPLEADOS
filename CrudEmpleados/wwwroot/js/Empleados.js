@@ -34,9 +34,13 @@ const confDTEmpleado = {
             "name": "acciones", "data": "acciones", "className": "text-center", "targets": 3, render: function (data, type, row, meta) {
                 // return data;
                 return type === 'display' ?
-                    `<button data-id="${row.id}" id="updaterow" onclick='fnCrearEmpleadoHtml(${JSON.stringify(row)})' type="button" class="btn update btn-primary btn-sm" ><i class="fa fa-pencil" ></i></button>
-                 <button data-id="${row.id}" id="deleterow" onclick='deleteEmpleado(${JSON.stringify(row)},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>` : data;
-            } }
+                    `<button data-id="${row.id}" id="updaterow" onclick='fnModificarEmpleadoHtml(${JSON.stringify(row)})' type="button" class="btn update btn-primary btn-sm" ><i class="fa fa-pencil" ></i></button>
+                 <button data-id="${row.id}" id="deleterow" onclick='fnEliminarEmpleado(${row.Id},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>` : data;
+            }
+        }
+        , { "name": "dtFechaCreacion", "data": "dtFechaCreacion", "className": "text-center", "targets": 4,"visible":false }
+        , { "name": "lActivo", "data": "lActivo", "className": "text-center", "targets": 5,"visible": false }
+        , { "name": "Id", "data": "Id", "className": "text-center", "targets": 6, "visible": false }
     ]
 };
 
@@ -75,6 +79,9 @@ const fnRealizarConsulta = () => {
                         , "sCorreo": _oData.sCorreo
                         , "dtFechaIngreso": _oData.dtFechaIngreso
                         , "acciones": ""
+                        , "dtFechaCreacion": _oData.dtFechaCreacion
+                        , "lActivo": _oData.lActivo
+                        , "Id": _oData.id
                     });
                 });//fin:$.each()
                 DTEmpleado.draw();
@@ -105,6 +112,9 @@ const fnCrearTabla = () => {
                             <th>Correo</th>
                             <th>FechaIngreso</th>
                             <th>Acciones</th>
+                            <th>dtFechaCreacion</th>
+                            <th>lActivo</th>
+                            <th>Id</th>
                         </tr>
                     </thead>
                     <tbody style="color:#fffff; background: transparent;" id="body_empleados"></tbody>
@@ -143,35 +153,107 @@ const fnAgregarEmpleado = (event) => {
         },
         body: JSON.stringify(value)
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.lSuccess) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Felicidades',
-                    text: 'Se agrego el registro exitosamente'
-                })
-                fnRealizarConsulta();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '"Error al agregar el registro"'
-                })
-            }
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.lSuccess) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Felicidades',
+                text: 'Se agrego el registro exitosamente'
+            })
+            fnRealizarConsulta();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '"Error al agregar el registro"'
+            })
+        }
+    });
 }
 
 const fnModificarEmpleadoHtml = (_this) => {
+    var sTituloModal = "Modificar Empleado";
+    $('div#divmodal div.modal-body').empty();
+    sTemplate = `
+    <form id="formulario" onsubmit="return fnModificarEmpleado(event);">
+        <input type="number" hidden name="Id" id="Id" value=${_this.Id} />
+        <input type="date" hidden name="dtFechaCreacion" id="dtFechaCreacion" value=${_this.dtFechaCreacion.substring(0, 10)} />
+        `+ fnHtmlInputs(_this) +
+        `<div class="modal-footer">
+            <button type="submit"  class="btn btn-primary">Guardar</button>
+        </div>
+    </form>`;
 
+    $('div#divmodal div.modal-body').html(sTemplate);
+    $('div#divmodal h5.modal-titulo').html(sTituloModal);
+    $('div#divmodal').modal('show');
 }
 
 const fnModificarEmpleado = () => {
+    event.preventDefault();
+    const data = new FormData(event.target);
 
+    const value = Object.fromEntries(data.entries());
+    value.lActivo = true;
+    fetch('/Home/ModificarEmpleado', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.lSuccess) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Felicidades',
+                text: 'Se modificó el registro exitosamente'
+            })
+            fnRealizarConsulta();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '"Error al modificar el registro"'
+            })
+        }
+    });
 }
 
-const fnEliminarEmpleado = () => {
-
+const fnEliminarEmpleado = (Id) => {
+    Swal.fire({
+        title: '¿Eliminar?',
+        text: "Esta accion no se podra revertir",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/Home/EliminarEmpleado?Id=' + Id)
+            .then(response => response.json())
+            .then(data => {
+                if (data.lSuccess) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Felicidades',
+                        text: 'Se eliminó el registro exitosamente'
+                    })
+                    fnRealizarConsulta();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '"Error al eliminar el registro"'
+                    })
+                }
+            });
+        }
+    });
 }
 
 const fnHtmlInputs = (_this) => {

@@ -41,17 +41,16 @@ namespace CrudEmpleados.Controllers
             return Ok(oRespuesta);
         }
 
-        public async Task<IActionResult> ModificarEmpleado(Empleado empleado)
+        public async Task<IActionResult> ModificarEmpleado([FromBody]Empleado empleado)
         {
             JObject oRespuesta = new JObject();
             oRespuesta["lSuccess"] = await repository.UpdateEmpleado(empleado);
             return Ok(oRespuesta);
         }
-
-        public async Task<IActionResult> EliminarEmpleado(int id)
+        public async Task<IActionResult> EliminarEmpleado(int Id)
         {
             JObject oRespuesta = new JObject();
-            oRespuesta["lSuccess"] = await repository.DeleteEmpleado(id);
+            oRespuesta["lSuccess"] = await repository.DeleteEmpleado(Id);
             return Ok(oRespuesta);
         }
     }
