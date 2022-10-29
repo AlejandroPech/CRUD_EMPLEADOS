@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAA9N2mlTcJEKDqkcbkdflXAAAAAACAAAAAAAQZgAAAAEAACAAAADZcTmc7y4/JiJU9Sg5gzUyr5X1I9FAk9enzSyxxr15MQAAAAAOgAAAAAIAACAAAAABV+K8JyZvC6/LZAdiTU9Oxv7rNJoaA73DNrM3RSu0HCAAAAAuTacyjI6OAdjERvmCzZWLyBIjVPfdv1xfvz+/N1Yl5EAAAACs2mOJzMDYZhlQcET9z0AOej7IWl2J5TzGSuHDBU4P0Ko4oq9eX4Kenviwl55xqvDqT2t0CuPknZtEWTbo75ad</EncryptedPassword>
+    <History>False|2022-10-29T02:50:06.3898853Z;</History>
+    <_PublishTargetUrl>ftp://155.254.244.39/www.empleadoscrud.somee.com</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>09/25/2022 23:16:16</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>10/28/2022 21:39:54</publishTime>
+    </File>
+    <File Include="CrudEmpleados.deps.json">
+      <publishTime>10/28/2022 21:49:03</publishTime>
+    </File>
+    <File Include="CrudEmpleados.dll">
+      <publishTime>10/28/2022 21:48:29</publishTime>
+    </File>
+    <File Include="CrudEmpleados.exe">
+      <publishTime>10/28/2022 21:48:29</publishTime>
+    </File>
+    <File Include="CrudEmpleados.pdb">
+      <publishTime>10/28/2022 21:48:29</publishTime>
+    </File>
+    <File Include="CrudEmpleados.runtimeconfig.json">
+      <publishTime>10/28/2022 21:48:33</publishTime>
+    </File>
+    <File Include="CrudEmpleados.Views.dll">
+      <publishTime>10/28/2022 21:48:33</publishTime>
+    </File>
+    <File Include="CrudEmpleados.Views.pdb">
+      <publishTime>10/28/2022 21:48:33</publishTime>
+    </File>
+    <File Include="Microsoft.Bcl.AsyncInterfaces.dll">
+      <publishTime>10/19/2020 13:47:56</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>08/25/2020 18:24:48</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>04/12/2022 17:29:32</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.dll">
+      <publishTime>04/12/2022 17:29:46</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>04/12/2022 17:29:56</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
+      <publishTime>04/12/2022 17:30:00</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>06/15/2021 14:12:46</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.dll">
+      <publishTime>05/18/2020 15:11:54</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>10/18/2019 18:39:24</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>10/18/2019 18:40:20</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.dll">
+      <publishTime>10/18/2019 18:41:02</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll">
+      <publishTime>10/18/2019 18:48:48</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>10/18/2019 18:43:40</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>03/20/2017 14:03:18</publishTime>
+    </File>
+    <File Include="ServiceStack.Interfaces.dll">
+      <publishTime>08/30/2022 03:17:32</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>11/15/2019 02:37:04</publishTime>
+    </File>
+    <File Include="System.Diagnostics.DiagnosticSource.dll">
+      <publishTime>12/11/2020 20:40:42</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>10/18/2019 18:38:18</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
