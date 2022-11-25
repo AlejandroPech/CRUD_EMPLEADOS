@@ -56,49 +56,37 @@ const fnRealizarConsulta = () => {
         .then(response => response.json())
         .then(data => {
             var divMain = document.getElementById("main-app")
-            if (data.length > 0) {
-                if (typeof (DTReversa) !== "undefined" && DTReversa !== null) {
-                    DTReversa.clear();
-                    DTReversa.destroy();
-                }//fin:if ( typeof(DTBoletaje) !== "undefined" && DTBoletaje !== null )
-                $('div#Empleado').remove();
-                var sTemplate = fnCrearTabla();
-                htmlObject = document.createElement('div');
-                htmlObject.setAttribute("id", "Empleado");
-                htmlObject.setAttribute("style", "width:100%; height:100%;");
-                htmlObject.innerHTML = sTemplate;
-                $('#main-app').append(htmlObject);
+            if (typeof (DTReversa) !== "undefined" && DTReversa !== null) {
+                DTReversa.clear();
+                DTReversa.destroy();
+            }//fin:if ( typeof(DTBoletaje) !== "undefined" && DTBoletaje !== null )
+            $('div#Empleado').remove();
+            var sTemplate = fnCrearTabla();
+            htmlObject = document.createElement('div');
+            htmlObject.setAttribute("id", "Empleado");
+            htmlObject.setAttribute("style", "width:100%; height:100%;");
+            htmlObject.innerHTML = sTemplate;
+            $('#main-app').append(htmlObject);
 
-                DTEmpleado = $('table#tbl-Empleado').DataTable(confDTEmpleado);
-                DTEmpleado.clear().draw();
+            DTEmpleado = $('table#tbl-Empleado').DataTable(confDTEmpleado);
+            DTEmpleado.clear().draw();
 
-                $("div#respuestaCheckOper").show();
-                $("#errorCheckOper").hide();
+            $("div#respuestaCheckOper").show();
+            $("#errorCheckOper").hide();
 
-                $.each(data, function (_index, _oData) {
-                    DTEmpleado.row.add({
-                        "sNombre": _oData.sNombre
-                        , "sCorreo": _oData.sCorreo
-                        , "dtFechaIngreso": _oData.dtFechaIngreso
-                        , "acciones": ""
-                        , "dtFechaCreacion": _oData.dtFechaCreacion
-                        , "lActivo": _oData.lActivo
-                        , "Id": _oData.id
-                    });
-                });//fin:$.each()
-                DTEmpleado.draw();
-                DTEmpleado.columns.adjust().draw();
-            } else {
-                var sTemplate = `<div>
-                    <img src="~/../images/nodata.png" style="width: 25%;margin-right: auto;margin-left: auto;display: block;">
-                </div>`;
-                divMain.appendChild;
-                htmlObject = document.createElement('div');
-                htmlObject.setAttribute("id", "Empleado");
-                htmlObject.setAttribute("style", "width:100%; height:100%;");
-                htmlObject.innerHTML = sTemplate;
-                $('#main-app').append(htmlObject);
-            }
+            $.each(data, function (_index, _oData) {
+                DTEmpleado.row.add({
+                    "sNombre": _oData.sNombre
+                    , "sCorreo": _oData.sCorreo
+                    , "dtFechaIngreso": _oData.dtFechaIngreso
+                    , "acciones": ""
+                    , "dtFechaCreacion": _oData.dtFechaCreacion
+                    , "lActivo": _oData.lActivo
+                    , "Id": _oData.id
+                });
+            });//fin:$.each()
+            DTEmpleado.draw();
+            DTEmpleado.columns.adjust().draw();
         });
 }
 

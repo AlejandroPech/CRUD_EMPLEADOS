@@ -59,7 +59,7 @@ namespace CrudEmpleados
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
+            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }

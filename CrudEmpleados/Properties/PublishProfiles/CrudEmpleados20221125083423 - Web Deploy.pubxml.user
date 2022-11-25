@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAFAFuw7BS1kmmcJYzLPfDrAAAAAACAAAAAAADZgAAwAAAABAAAACrMr/mtD0J+FWdRiVK6RbjAAAAAASAAACgAAAAEAAAAGGoH6fJEtCXt7mnkq0Nxz+AAAAALO5QSVL1lQ/nYmtQIFDibVWG+Oe5gasHN1l4DMmy0Xuv62tvJUP3MTivKVizja4IeuPttD38SBTOGo8puclAPI7VdH3heQfRRa7Mt/3IeHTITkO0+H9ZBeCh4ix9MW0k7FT/dncLQ9nlAfP6vPkCCvGerFBCtPi6H2Ql2EgnplsUAAAAmy2KCO/egGfkJNyGfYUcHpM6z2o=</EncryptedPassword>
+    <History>True|2022-11-25T17:51:18.2288313Z;True|2022-11-25T10:51:40.1118460-06:00;True|2022-11-25T10:02:47.8494353-06:00;True|2022-11-25T08:37:46.0835700-06:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="Alejandro">
+      <Value>Data Source=tcp:crudempleadosdbserver.database.windows.net,1433%3bInitial Catalog=CrudEmpleados_db%3bUser Id=adminalejandro%40crudempleadosdbserver%3bPassword=CrudEmpleados.</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="CrudEmpleados.Infraestructure.AppDbContext">
+      <Value>Data Source=tcp:crudempleadosdbserver.database.windows.net,1433%3bInitial Catalog=CrudEmpleados_db%3bUser Id=adminalejandro%40crudempleadosdbserver%3bPassword=CrudEmpleados.</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
