@@ -27,6 +27,9 @@ namespace CrudEmpleados
         {
             services.AddDbContext<AppDbContext>(options =>
                       options.UseSqlServer(Configuration.GetConnectionString("Alejandro")));
+            // Add MVC services to the services container.
+            services.AddMvc();
+            services.AddSession();
             services.AddControllersWithViews();
         }
 
@@ -45,7 +48,7 @@ namespace CrudEmpleados
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,6 +59,7 @@ namespace CrudEmpleados
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }

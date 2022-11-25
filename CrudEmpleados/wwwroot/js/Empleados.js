@@ -36,7 +36,8 @@ const confDTEmpleado = {
                 // return data;
                 return type === 'display' ?
                     `<button data-id="${row.id}" id="updaterow" onclick='fnModificarEmpleadoHtml(${JSON.stringify(row)})' type="button" class="btn update btn-primary btn-sm" ><i class="fa fa-pencil" ></i></button>
-                 <button data-id="${row.id}" id="deleterow" onclick='fnEliminarEmpleado(${row.Id},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>` : data;
+                 <button data-id="${row.id}" id="deleterow" onclick='fnEliminarEmpleado(${row.Id},4)' class="btn delete btn-danger btn-sm" ><i class='fa fa-trash'></i></button>
+                <button data-id="${row.id}" id="exportPdf" onclick='fnExportarPdf("${row.sNombre}")' class="btn delete btn-danger btn-sm" ><i class='fa fa-solid fa-file-pdf'></i></button>` : data;
             }
         }
         , { "name": "dtFechaCreacion", "data": "dtFechaCreacion", "className": "text-center", "targets": 4, "visible": false }
@@ -279,4 +280,8 @@ const fnHtmlInputs = (_this) => {
             </div>
         </div>`;
     return sHtml;
+}
+
+const fnExportarPdf = (_sNombre) => {
+    window.location.href = window.location.origin + "/home/Print?nombre=" + _sNombre;
 }
